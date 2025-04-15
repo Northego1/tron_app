@@ -1,37 +1,36 @@
-from datetime import UTC, datetime
 from typing import Protocol
 
-from tron_app.application.usecases.uow_protocol import UowProtocol
+from core.logger import get_logger
+from tron_app.application.usecases.exceptions import ApplicationError
 from tron_app.domain.entities.wallet import Wallet
-from tron_app.domain.entities.wallet_query import WalletQuery
-from tron_app.presentation.api.v1.schemas.requests import Paginator
+
+log = get_logger(__name__)
 
 
-class WalletQueriesRepositoryProtocol(Protocol):
-    async def add(self, wallet_query: WalletQuery) -> None: ...
-
-
-class RepositoryProtocol(Protocol):
-    wallet_queries_repository: WalletQueriesRepositoryProtocol
+class WalletNotFoundError(ApplicationError): ...
 
 
 class TronApiGatewayProtocol(Protocol):
-    async def get_wallet(self, address: str) -> Wallet: ...
+    async def get_wallet(self, address: str) -> Wallet | None: ...
 
 
-class GetQueriesUsecase:
+class GetWalletUsecase:
     def __init__(
             self,
-            uow: UowProtocol[RepositoryProtocol],
             tron_api_gateway: TronApiGatewayProtocol,
     ) -> None:
-        self.uow = uow
         self.tron_api_gateway = tron_api_gateway
 
 
     async def execute(self, address: str) -> Wallet:
-        wallet = await self. tron_api_gateway.get_wallet(address=address)
+        log.info("Executing get wallet usecase by address: %s", address)
+        if not (
+            wallet := await self.tron_api_gateway.get_wallet(address=address)
+        ):
+            log.info("Not found wallet by address: %s", address)
+            raise WalletNotFoundError(status_code=404, detail="Wallet not found")
+        log.info("Successfully executed get wallet usecase by address: %s", address)
+        return wallet
 
-        async with self.uow.transaction() as repo:
 
 

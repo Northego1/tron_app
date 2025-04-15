@@ -1,5 +1,4 @@
-
-class DomainError(Exception):
+class ApplicationError(Exception):
     def __init__(
         self,
         *args: object,

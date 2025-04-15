@@ -1,16 +1,16 @@
 from typing import Protocol
 
+from tron_app.application.dto import Paginator
 from tron_app.application.usecases.uow_protocol import UowProtocol
 from tron_app.domain.entities.wallet_query import WalletQuery
-from tron_app.presentation.api.v1.schemas.requests import Paginator
 
 
-class WalletQueriesRepositoryProtocol(Protocol):
+class WalletQueryRepositoryProtocol(Protocol):
     async def get_all(self, limit: int, offset: int) -> list[WalletQuery]: ...
 
 
 class RepositoryProtocol(Protocol):
-    wallet_queries_repository: WalletQueriesRepositoryProtocol
+    wallet_queries_repository: WalletQueryRepositoryProtocol
 
 
 class GetQueriesUsecase:

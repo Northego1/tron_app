@@ -2,6 +2,7 @@ from dependency_injector import containers, providers
 
 from core.config import config
 from core.database import DataBase
+from core.http_client import HttpClient
 from core.uow import UnitOfWork
 from tron_app.application.container import ApplicationContainer
 from tron_app.infrastructure.container import InfrastructureContainer
@@ -15,6 +16,10 @@ class Container(containers.DeclarativeContainer):
     ])
 
 
+
+    http_client: providers.Singleton[HttpClient] = providers.Singleton(
+        HttpClient,
+    )
     db: providers.Singleton[DataBase] = providers.Singleton(
         DataBase,
         dsn=config.db.dsn,
@@ -24,11 +29,13 @@ class Container(containers.DeclarativeContainer):
         db=db,
     )
 
-    # application_container = providers.Container(
-    #     ApplicationContainer,
-    #     uow=uow,
-    # )
+    infrastructure_container = providers.Container(
+        InfrastructureContainer,
+        http_client=http_client,
+    )
 
-    # infrastructure_container = providers.Container(
-    #     InfrastructureContainer,
-    # )
+    application_container = providers.Container(
+        ApplicationContainer,
+        infra_container=infrastructure_container,
+        uow=uow,
+    )

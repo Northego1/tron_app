@@ -12,8 +12,3 @@ class PostTronRequest(BaseModel):
             raise ValueError("Invalid Tron address")
         return address
 
-
-
-class Paginator(BaseModel):
-    limit: int = Field(ge=0)
-    offset: int = Field(ge=0)

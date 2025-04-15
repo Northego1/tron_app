@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
+from typing import TYPE_CHECKING, AsyncGenerator
 
 import uvicorn
 from fastapi import FastAPI
@@ -8,11 +8,19 @@ from core.container import Container
 from core.logger import get_logger
 from tron_app.presentation import api
 
+if TYPE_CHECKING:
+    from core.http_client import HttpClient
+
 log = get_logger(__name__)
+
 
 @asynccontextmanager
 async def _lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    client: HttpClient = app.state.container.http_client()
+    log.debug("Creating http client")
+    client.create()
     yield
+    await client.aclose()
 
 
 def create_app() -> FastAPI:

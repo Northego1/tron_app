@@ -6,17 +6,16 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 
 
 class BaseConfig(BaseSettings):
-    """Base configuration settings."""
-
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",
         extra="allow",
     )
 
+class TronApiSettings(BaseConfig):
+    API_DOMAIN: str
+
 
 class PostgresSettings(BaseConfig):
-    """Database configuration settings."""
-
     DB_USER: str
     DB_PASS: str
     DB_NAME: str
@@ -36,6 +35,7 @@ class Config:
     """Application configuration settings."""
 
     db = PostgresSettings()  # type: ignore
+    tron = TronApiSettings() # type: ignore
 
 
 
