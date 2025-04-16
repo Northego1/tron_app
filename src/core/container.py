@@ -11,9 +11,11 @@ from tron_app.infrastructure.container import InfrastructureContainer
 class Container(containers.DeclarativeContainer):
     """Main application container."""
 
-    wiring_config = containers.WiringConfiguration(packages=[
-        "tron_app.presentation.api.v1",
-    ])
+    wiring_config = containers.WiringConfiguration(
+        packages=[
+            "tron_app.presentation.api.v1",
+        ],
+    )
 
     config: providers.Singleton[Config] = providers.Singleton(Config, prod_type="DEV")
 

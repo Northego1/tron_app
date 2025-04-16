@@ -15,6 +15,3 @@ class WalletQuery:
     query_time: datetime
     status: QueryStatus
     id: uuid.UUID = field(default_factory=uuid.uuid4)
-
-
-

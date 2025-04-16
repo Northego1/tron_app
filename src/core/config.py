@@ -32,7 +32,6 @@ class AppSettings(BaseSettings):
     PROD: str
 
 
-
 class Config:
     def __init__(self, prod_type: Literal["DEV", "TEST"] = "DEV") -> None:
         match prod_type:
@@ -43,11 +42,9 @@ class Config:
 
         load_dotenv(env_file, override=True)
 
-
-        self.db = PostgresSettings()                       # type: ignore
-        self.tron = TronApiSettings()                      # type: ignore
-        self.app = AppSettings()                           # type: ignore
-
+        self.db = PostgresSettings()  # type: ignore
+        self.tron = TronApiSettings()  # type: ignore
+        self.app = AppSettings()  # type: ignore
 
 
 config = Config()

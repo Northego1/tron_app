@@ -21,25 +21,25 @@ from tron_app.domain.entities.wallet_query import WalletQuery
     ],
 )
 async def test_get_queries_usecase(
-        paginator: Paginator,
-        expected: list[WalletQuery],
-        exception: type[Exception] | None,
-        container: Container,
+    paginator: Paginator,
+    expected: list[WalletQuery],
+    exception: type[Exception] | None,
+    container: Container,
 ) -> None:
-    container.application_container.get_queries_uc.override(                    # type: ignore
+    container.application_container.get_queries_uc.override(  # type: ignore
         providers.Factory(
             GetQueriesUsecase,
             uow=uow_mock,
         ),
     )
 
-    get_queries_uc: GetQueriesUsecase = (                                       # type: ignore
-        container.application_container.get_queries_uc()                        # type: ignore
+    get_queries_uc: GetQueriesUsecase = (  # type: ignore
+        container.application_container.get_queries_uc()  # type: ignore
     )
 
     if exception:
         with pytest.raises(exception):
-            await get_queries_uc.execute(paginator=paginator)                   # type: ignore
+            await get_queries_uc.execute(paginator=paginator)  # type: ignore
     else:
-        result = await get_queries_uc.execute(paginator=paginator)              # type: ignore
+        result = await get_queries_uc.execute(paginator=paginator)  # type: ignore
         assert result == expected

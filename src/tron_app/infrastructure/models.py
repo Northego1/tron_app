@@ -12,7 +12,6 @@ from tron_app.domain.entities.wallet_query import QueryStatus
 class WalletQueryModel(Base):
     __tablename__ = "wallet_queries"
 
-
     id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True)
     tron_address: Mapped[str] = mapped_column(String, nullable=False)
     query_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

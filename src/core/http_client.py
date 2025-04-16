@@ -9,7 +9,6 @@ class HttpClient:
         self.client = httpx.AsyncClient()
         return self.client
 
-
     async def aclose(self) -> None:
         if hasattr(self, "_client"):
             await self.client.aclose()

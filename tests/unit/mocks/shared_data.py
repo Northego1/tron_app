@@ -14,6 +14,7 @@ def make_wallet_query() -> WalletQuery:
         tron_address="TCRctCvEse9Y6E6i5DaTjkaSwyKRe6QQP8",
     )
 
+
 def make_query_dto() -> QueryDto:
     return QueryDto(
         status=QueryStatus.SUCCESS,

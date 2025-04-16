@@ -11,7 +11,6 @@ class WalletQueryRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-
     async def add(self, wallet_query: WalletQuery) -> None:
         wallet_model = WalletQueryModel(
             id=wallet_query.id,
@@ -28,13 +27,8 @@ class WalletQueryRepository:
                 detail="Unique Error",
             ) from e
 
-
     async def get_all(self, limit: int, offset: int) -> list[WalletQuery]:
-        query = (
-            select(WalletQueryModel)
-            .offset(offset)
-            .limit(limit)
-        )
+        query = select(WalletQueryModel).offset(offset).limit(limit)
 
         result = await self.session.execute(query)
         rows = result.scalars().all()
@@ -45,7 +39,6 @@ class WalletQueryRepository:
                 tron_address=row.tron_address,
                 query_time=row.query_time,
                 status=row.status,
-            ) for row in rows
+            )
+            for row in rows
         ]
-
-

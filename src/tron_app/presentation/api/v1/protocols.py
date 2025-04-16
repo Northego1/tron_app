@@ -15,5 +15,3 @@ class GetQueriesUsecase(Protocol):
 
 class GetWalletUsecaseProtocol(Protocol):
     async def execute(self, address: str) -> Wallet: ...
-
-

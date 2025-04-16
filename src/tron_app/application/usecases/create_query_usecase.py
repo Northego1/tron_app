@@ -18,15 +18,14 @@ class RepositoryProtocol(Protocol):
 
 class CreateQueryUsecase:
     def __init__(
-            self,
-            uow: UowProtocol[RepositoryProtocol],
+        self,
+        uow: UowProtocol[RepositoryProtocol],
     ) -> None:
         self.uow = uow
 
-
     async def execute(
-            self,
-            query_dto: QueryDto,
+        self,
+        query_dto: QueryDto,
     ) -> None:
         log.info("Executing CreateQueryUsecase by address: %s", query_dto.tron_address)
         wallet_query = WalletQuery(
@@ -40,5 +39,3 @@ class CreateQueryUsecase:
             "Succesfully executed CreateQueryUsecase by address: %s",
             query_dto.tron_address,
         )
-
-

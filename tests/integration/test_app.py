@@ -16,13 +16,12 @@ async def test_get_wallet_queries(
     assert response.status_code == 200
 
 
-
 @pytest.mark.asyncio
 async def test_post_wallet_queries(
     container: Container,
     client: AsyncClient,
 ) -> None:
-    container.infrastructure_container.tron_gateway.override( # type: ignore
+    container.infrastructure_container.tron_gateway.override(  # type: ignore
         providers.Factory(
             TronApiGateway,
             http_client=http_mock,
@@ -38,10 +37,11 @@ async def test_post_wallet_queries(
     resp_data = get_resp.json()
 
     assert len(resp_data["items"]) == 1
-    assert post_resp.json() == responses.WalletResponse(
-        balance_trx=666,
-        energy=666,
-        bandwidth=666,
-    ).model_dump()
-
-
+    assert (
+        post_resp.json()
+        == responses.WalletResponse(
+            balance_trx=666,
+            energy=666,
+            bandwidth=666,
+        ).model_dump()
+    )

@@ -20,7 +20,7 @@ def container() -> Container:
             prod_type="TEST",
         ),
     )
-    container.init_resources() # type: ignore
+    container.init_resources()  # type: ignore
     container.wire(packages=["tron_app.presentation.api.v1"])
 
     return container
@@ -51,8 +51,3 @@ async def setup_db(container: Container) -> AsyncGenerator[None, None]:
 async def client(setup_db: None, lifespan: None) -> AsyncGenerator[AsyncClient, None]:  # noqa: ARG001
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         yield ac
-
-
-
-
-

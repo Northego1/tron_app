@@ -21,17 +21,15 @@ router = APIRouter(prefix="/wallet/queries")
 @router.get("/", status_code=200)
 @inject
 async def get_queries(
-        paginator: Paginator = Query(),
-        get_queries_uc: proto.GetQueriesUsecase = Depends(
-            Provide[Container.application_container.get_queries_uc], # type: ignore
-        ),
+    paginator: Paginator = Query(),
+    get_queries_uc: proto.GetQueriesUsecase = Depends(
+        Provide[Container.application_container.get_queries_uc],  # type: ignore
+    ),
 ) -> responses.WalletQueriesResponse:
     try:
         queries = await get_queries_uc.execute(paginator=paginator)
         return responses.WalletQueriesResponse(
-            items=[
-                responses.WalletQueryResponse(**asdict(query)) for query in queries
-            ],
+            items=[responses.WalletQueryResponse(**asdict(query)) for query in queries],
             total=len(queries),
         )
     except (ApplicationError, InfrastructureError) as e:
@@ -41,17 +39,16 @@ async def get_queries(
         ) from e
 
 
-
 @router.post("/", status_code=201)
 @inject
 async def post_query(
-        address: requests.PostTronRequest,
-        post_query_uc: proto.GetWalletUsecaseProtocol = Depends(
-            Provide[Container.application_container.post_query_uc], # type: ignore
-        ),
-        create_query_uc: proto.CreateQueryUsecaseProtocol = Depends(
-            Provide[Container.application_container.create_query_uc], # type: ignore
-        ),
+    address: requests.PostTronRequest,
+    post_query_uc: proto.GetWalletUsecaseProtocol = Depends(
+        Provide[Container.application_container.post_query_uc],  # type: ignore
+    ),
+    create_query_uc: proto.CreateQueryUsecaseProtocol = Depends(
+        Provide[Container.application_container.create_query_uc],  # type: ignore
+    ),
 ) -> responses.WalletResponse:
     try:
         status = QueryStatus.FAILURE
@@ -65,7 +62,7 @@ async def post_query(
             bandwidth=wallet.bandwidth,
             energy=wallet.energy,
         )
-    except (ApplicationError, InfrastructureError)as e:
+    except (ApplicationError, InfrastructureError) as e:
         log.debug("Failure got wallet by address: %s", address)
         raise HTTPException(
             status_code=e.status_code,
@@ -75,7 +72,7 @@ async def post_query(
         log.debug("Calling usecase to record query by address: %s", address)
         await create_query_uc.execute(
             QueryDto(
-                status=status, # type: ignore
+                status=status,  # type: ignore
                 tron_address=address.address,
                 query_time=datetime.now(UTC),
             ),

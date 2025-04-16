@@ -20,25 +20,25 @@ from tron_app.domain.entities.wallet import Wallet
     ],
 )
 async def test_post_query_usecase(
-        address: str,
-        expected: Wallet,
-        exception: type[Exception] | None,
-        container: Container,
+    address: str,
+    expected: Wallet,
+    exception: type[Exception] | None,
+    container: Container,
 ) -> None:
-    container.application_container.post_query_uc.override(                    # type: ignore
+    container.application_container.post_query_uc.override(  # type: ignore
         providers.Factory(
             GetWalletUsecase,
             tron_api_gateway=MockTronApiGateway,
         ),
     )
 
-    post_query_uc: GetWalletUsecase = (                                       # type: ignore
-        container.application_container.post_query_uc()                        # type: ignore
+    post_query_uc: GetWalletUsecase = (  # type: ignore
+        container.application_container.post_query_uc()  # type: ignore
     )
 
     if exception:
         with pytest.raises(exception):
-            await post_query_uc.execute(address=address)                   # type: ignore
+            await post_query_uc.execute(address=address)  # type: ignore
     else:
-        result = await post_query_uc.execute(address=address)              # type: ignore
+        result = await post_query_uc.execute(address=address)  # type: ignore
         assert result == expected

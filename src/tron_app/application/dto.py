@@ -13,7 +13,6 @@ class QueryDto:
     query_time: datetime
 
 
-
 class Paginator(BaseModel):
     limit: int = Field(ge=0)
     offset: int = Field(ge=0)

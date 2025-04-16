@@ -21,25 +21,25 @@ from tron_app.domain.entities.wallet_query import WalletQuery
     ],
 )
 async def test_create_query_uc(
-        query_dto: QueryDto,
-        expected: list[WalletQuery],
-        exception: type[Exception] | None,
-        container: Container,
+    query_dto: QueryDto,
+    expected: list[WalletQuery],
+    exception: type[Exception] | None,
+    container: Container,
 ) -> None:
-    container.application_container.create_query_uc.override(                    # type: ignore
+    container.application_container.create_query_uc.override(  # type: ignore
         providers.Factory(
             CreateQueryUsecase,
             uow=uow_mock,
         ),
     )
 
-    create_query_uc: CreateQueryUsecase = (                                       # type: ignore
-        container.application_container.create_query_uc()                        # type: ignore
+    create_query_uc: CreateQueryUsecase = (  # type: ignore
+        container.application_container.create_query_uc()  # type: ignore
     )
 
     if exception:
         with pytest.raises(exception):
-            await create_query_uc.execute(query_dto=query_dto)                   # type: ignore
+            await create_query_uc.execute(query_dto=query_dto)  # type: ignore
     else:
-        result = await create_query_uc.execute(query_dto=query_dto)              # type: ignore
+        result = await create_query_uc.execute(query_dto=query_dto)  # type: ignore
         assert result == expected

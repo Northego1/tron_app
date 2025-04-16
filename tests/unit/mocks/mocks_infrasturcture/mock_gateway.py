@@ -10,13 +10,10 @@ if TYPE_CHECKING:
 
 def get_wallet_effect(address: str) -> Wallet:
     wallet = make_wallet()
-    wallet.address=address
+    wallet.address = address
     return wallet
 
 
 MockTronApiGateway = cast("TronApiGateway", Mock())
 
 MockTronApiGateway.get_wallet = AsyncMock(side_effect=get_wallet_effect)
-
-
-

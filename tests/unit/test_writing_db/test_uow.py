@@ -49,7 +49,7 @@ async def test_uow_rollbacks_on_failure(mocker: pytest_mock.MockerFixture) -> No
         "tron_app.infrastructure.repository.wallet_query_repository.WalletQueryRepository.add",
         side_effect=Exception,
     )
-    with pytest.raises(Exception):                              # noqa: B017, PT011
+    with pytest.raises(Exception):  # noqa: B017, PT011
         async with uow.transaction() as repo:
             await repo.wallet_queries_repository.add(wallet_query=make_wallet_query())
 

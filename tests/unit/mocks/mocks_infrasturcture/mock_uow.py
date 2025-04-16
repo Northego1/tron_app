@@ -22,5 +22,4 @@ class Uow:
         pass
 
 
-
 uow_mock.transaction = Mock(side_effect=Uow)

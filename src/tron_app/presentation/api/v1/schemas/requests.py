@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, field_validator
 
 
 class PostTronRequest(BaseModel):
-    address: str = Field(examples=["TWd413qHSXZ9ryAZUkk1A5j3PScT7jfahE"])
+    address: str = Field(examples=["TLBJML1LhqRePGBQVTmWFaTYeKgNpJwjKq"])
 
     @field_validator("address", mode="before")
     @classmethod
@@ -11,4 +11,3 @@ class PostTronRequest(BaseModel):
         if not base58.b58decode_check(address).startswith(b"\x41"):
             raise ValueError("Invalid Tron address")
         return address
-

@@ -15,11 +15,10 @@ class RepositoryProtocol(Protocol):
 
 class GetQueriesUsecase:
     def __init__(
-            self,
-            uow: UowProtocol[RepositoryProtocol],
+        self,
+        uow: UowProtocol[RepositoryProtocol],
     ) -> None:
         self.uow = uow
-
 
     async def execute(self, paginator: Paginator) -> list[WalletQuery]:
         async with self.uow.transaction() as repo:
@@ -27,4 +26,3 @@ class GetQueriesUsecase:
                 limit=paginator.limit,
                 offset=paginator.offset,
             )
-

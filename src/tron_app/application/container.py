@@ -7,7 +7,7 @@ from tron_app.application.usecases.post_query_usecase import GetWalletUsecase
 
 class ApplicationContainer(containers.DeclarativeContainer):
     infra_container = providers.DependenciesContainer()
-    uow: providers.Dependency = providers.Dependency() # type: ignore
+    uow: providers.Dependency = providers.Dependency()  # type: ignore
 
     create_query_uc: providers.Factory[CreateQueryUsecase] = providers.Factory(
         CreateQueryUsecase,
@@ -21,6 +21,5 @@ class ApplicationContainer(containers.DeclarativeContainer):
 
     post_query_uc: providers.Factory[GetWalletUsecase] = providers.Factory(
         GetWalletUsecase,
-        tron_api_gateway=infra_container.tron_gateway, # type: ignore
+        tron_api_gateway=infra_container.tron_gateway,  # type: ignore
     )
-
