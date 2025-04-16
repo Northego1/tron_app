@@ -7,10 +7,13 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import DeclarativeBase
 
+from core.config import Config
+
 
 class DataBase:
-    def __init__(self: Self, dsn: str) -> None:
-        self.engine = create_async_engine(url=dsn)
+    def __init__(self: Self, config: Config) -> None:
+        self.config = config
+        self.engine = create_async_engine(url=config.db.dsn)
         self.async_session_maker = async_sessionmaker(self.engine, expire_on_commit=False)
 
 

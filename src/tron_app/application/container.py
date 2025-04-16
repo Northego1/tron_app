@@ -19,7 +19,7 @@ class ApplicationContainer(containers.DeclarativeContainer):
         uow=uow,
     )
 
-    post_query_usecase: providers.Factory[GetWalletUsecase] = providers.Factory(
+    post_query_uc: providers.Factory[GetWalletUsecase] = providers.Factory(
         GetWalletUsecase,
         tron_api_gateway=infra_container.tron_gateway, # type: ignore
     )

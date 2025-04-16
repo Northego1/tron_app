@@ -1,7 +1,7 @@
 from typing import Protocol
 
 from core.logger import get_logger
-from tron_app.application.usecases.exceptions import ApplicationError
+from tron_app.application.exceptions import ApplicationError
 from tron_app.domain.entities.wallet import Wallet
 
 log = get_logger(__name__)

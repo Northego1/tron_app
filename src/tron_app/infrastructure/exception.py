@@ -1,4 +1,4 @@
-class AppError(Exception):
+class InfrastructureError(Exception):
     def __init__(
         self,
         *args: object,

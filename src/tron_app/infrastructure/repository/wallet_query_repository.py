@@ -1,7 +1,9 @@
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from tron_app.domain.entities.wallet_query import WalletQuery
+from tron_app.infrastructure.exception import InfrastructureError
 from tron_app.infrastructure.models import WalletQueryModel
 
 
@@ -18,6 +20,13 @@ class WalletQueryRepository:
             status=wallet_query.status,
         )
         self.session.add(wallet_model)
+        try:
+            await self.session.flush()
+        except IntegrityError as e:
+            raise InfrastructureError(
+                status_code=400,
+                detail="Unique Error",
+            ) from e
 
 
     async def get_all(self, limit: int, offset: int) -> list[WalletQuery]:
