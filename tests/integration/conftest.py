@@ -11,7 +11,7 @@ from core.database import Base
 from main import app
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def container() -> Container:
     container = Container()
     container.config.override(  # type: ignore
@@ -26,7 +26,7 @@ def container() -> Container:
     return container
 
 
-@pytest_asyncio.fixture(scope="function")
+@pytest_asyncio.fixture
 async def lifespan(container: Container) -> AsyncGenerator[None, None]:
     client = container.http_client()
     client.create()
@@ -34,7 +34,7 @@ async def lifespan(container: Container) -> AsyncGenerator[None, None]:
     await client.aclose()
 
 
-@pytest_asyncio.fixture(scope="function")
+@pytest_asyncio.fixture
 async def setup_db(container: Container) -> AsyncGenerator[None, None]:
     database = container.db()
     if database.config.app.PROD != "TEST":
@@ -47,8 +47,8 @@ async def setup_db(container: Container) -> AsyncGenerator[None, None]:
             await conn.run_sync(Base.metadata.drop_all)
 
 
-@pytest_asyncio.fixture(scope="function")
-async def client(setup_db: None, lifespan: None) -> AsyncGenerator[AsyncClient, None]:
+@pytest_asyncio.fixture
+async def client(setup_db: None, lifespan: None) -> AsyncGenerator[AsyncClient, None]:  # noqa: ARG001
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         yield ac
 

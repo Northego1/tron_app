@@ -27,6 +27,7 @@ class TronApiGateway:
         log.debug("Sending account request to TRON_API by address: %s", address)
         acc_resp = await self.client.get(f"{self.api_domain}/v1/accounts/{address}")
         acc_data = acc_resp.json()
+        log.debug("%s", acc_data)
         if "data" not in acc_data or not acc_data["data"]:
             log.debug("Account with address %s not found", address)
             raise GatewayEmptyResponseError(
@@ -41,7 +42,6 @@ class TronApiGateway:
             "address": base58.b58decode_check(address).hex(),
         })
         res_data = res_resp.json()
-
         bandwidth = res_data.get("freeNetLimit", 0)
         energy = res_data.get("EnergyLimit", 0)
 

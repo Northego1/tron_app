@@ -30,7 +30,7 @@ ignore = [
     "E501", "D", "UP035", "ANN401",
     "B010", "B009", "SIM117", "EM101",
     "TRY003", "FAST002", "B008", "TID252",
-    "PGH003"
+    "PGH003", "S101", "PLR2004", "TRY002"
 ]
 
 [tool.mypy]

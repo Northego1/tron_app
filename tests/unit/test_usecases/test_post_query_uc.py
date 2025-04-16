@@ -41,4 +41,4 @@ async def test_post_query_usecase(
             await post_query_uc.execute(address=address)                   # type: ignore
     else:
         result = await post_query_uc.execute(address=address)              # type: ignore
-        assert result == expected                                               # noqa: S101
+        assert result == expected

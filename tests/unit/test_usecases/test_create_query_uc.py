@@ -42,4 +42,4 @@ async def test_create_query_uc(
             await create_query_uc.execute(query_dto=query_dto)                   # type: ignore
     else:
         result = await create_query_uc.execute(query_dto=query_dto)              # type: ignore
-        assert result == expected                                               # noqa: S101
+        assert result == expected

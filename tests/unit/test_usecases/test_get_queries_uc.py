@@ -42,4 +42,4 @@ async def test_get_queries_usecase(
             await get_queries_uc.execute(paginator=paginator)                   # type: ignore
     else:
         result = await get_queries_uc.execute(paginator=paginator)              # type: ignore
-        assert result == expected                                               # noqa: S101
+        assert result == expected

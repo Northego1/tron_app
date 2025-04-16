@@ -54,6 +54,7 @@ async def post_query(
         ),
 ) -> responses.WalletResponse:
     try:
+        status = QueryStatus.FAILURE
         log.debug("Calling usecase to get wallet by address: %s", address)
         wallet = await post_query_uc.execute(address=address.address)
         log.debug("Successful got wallet by address: %s", address)
@@ -66,8 +67,6 @@ async def post_query(
         )
     except (ApplicationError, InfrastructureError)as e:
         log.debug("Failure got wallet by address: %s", address)
-        status = QueryStatus.FAILURE
-
         raise HTTPException(
             status_code=e.status_code,
             detail=e.detail,

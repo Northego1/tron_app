@@ -1,7 +1,6 @@
 from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING, AsyncGenerator
 
-import uvicorn
 from fastapi import FastAPI
 
 from core.container import Container
@@ -39,5 +38,5 @@ def create_app() -> FastAPI:
 app = create_app()
 
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", reload=True)
+# if __name__ == "__main__":
+#     uvicorn.run("main:app", reload=True)  # noqa: ERA001
